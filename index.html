@@ -3,43 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pi Testnet App - Verify</title>
+    <title>Pi Testnet Verification App</title>
+    <!-- Pi Network SDK Script -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
-            text-align: center;
-            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .container {
+        .card {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            display: inline-block;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
         }
-        h1 { color: #5a2d82; }
-        p { color: #666; }
-        .btn {
-            background-color: #5a2d82;
+        button {
+            background-color: #5d2e8c;
             color: white;
-            padding: 10px 20px;
             border: none;
-            border-radius: 5px;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
             cursor: pointer;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 15px;
+            margin-top: 20px;
         }
-        .btn:hover { background-color: #431f63; }
+        button:hover {
+            background-color: #48226d;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Pi Testnet Verification App</h1>
+
+    <div class="card">
+        <h2>Pi Testnet Verification App</h2>
         <p>Welcome! Your app is successfully connected to the Pi Network Testnet environment.</p>
-        <a href="#" class="btn">Verify Connection</a>
+        
+        <!-- यह रहा आपका Verify Connection बटन -->
+        <button id="verify-btn" onclick="verifyPiConnection()">Verify Connection</button>
+        <p id="status-text" style="margin-top: 15px; font-size: 14px; color: #666;"></p>
     </div>
+
+    <script>
+        // Pi SDK को इनिशियलाइज करें
+        window.addEventListener('DOMContentLoaded', (event) => {
+            try {
+                if (window.Pi) {
+                    window.Pi.init({ version: "2.0", sandbox: true });
+                    console.log("Pi SDK Initialized successfully.");
+                }
+            } catch (error) {
+                console.error("Pi SDK Initialization failed:", error);
+            }
+        });
+
+        // बटन पर क्लिक होने पर यह फंक्शन चलेगा
+        async function verifyPiConnection() {
+            const statusText = document.getElementById("status-text");
+            statusText.innerText = "Connecting to Pi Network...";
+
+            try {
+                // Pi Network से ऑथेंटिकेशन या स्कोप अनुरोध करें
+                const scopes = ['username', 'payments'];
+                
+                function onIncompletePaymentFound(payment) {
+                    console.log("Incomplete payment found:", payment);
+                }
+
+                if (window.Pi) {
+                    const auth = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
+                    statusText.style.color = "green";
+                    statusText.innerText = `Verified! Logged in as ${auth.user.username}`;
+                    alert("Connection Verified Successfully with Pi Network!");
+                } else {
+                    statusText.style.color = "red";
+                    statusText.innerText = "Please open this app inside the Pi Browser.";
+                }
+            } catch (error) {
+                statusText.style.color = "red";
+                statusText.innerText = "Verification failed: " + (error.message || error);
+            }
+        }
+    </script>
 </body>
 </html>
-
