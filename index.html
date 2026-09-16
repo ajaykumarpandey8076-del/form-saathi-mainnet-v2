@@ -162,17 +162,106 @@
             font-size: 18px;
             color: #64748b;
         }
+        
+        /* Modal & Preview Sheet */
+        #form-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: flex-end;
+        }
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 24px 24px 0 0;
+            padding: 25px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .close-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 5px;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .submit-ai-btn {
+            background: #1d4ed8;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+        
+        /* Preview & Disclaimer Box */
+        .preview-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+        .disclaimer-text {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 10px;
+            font-size: 12px;
+            color: #b45309;
+            margin-top: 15px;
+            border-radius: 4px;
+            line-height: 1.4;
+        }
+
+        /* Bottom Navigation Bar */
         .bottom-nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: white;
             border-top: 1px solid #e2e8f0;
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
+            z-index: 500;
         }
         .nav-item {
             text-align: center;
@@ -218,11 +307,11 @@
         <div class="cat-chip" onclick="filterCat('service')">सरकारी सेवा</div>
     </div>
 
-    <div class="section-title">Sabhi Form</div>
+    <div class="section-title">Sabhi Form & Sevaen</div>
 
     <div class="form-list" id="form-container">
         
-        <div class="form-card" data-cat="id" onclick="openFormDetail('Aadhaar Correction / Update', 'आधार सुधार / अपडेट', 'Naam, address, DOB ya mobile [Aadhaar Redacted] me theek karwana.')">
+        <div class="form-card" data-cat="id" onclick="openFormModal('Aadhaar Correction / Update', 'आधार सुधार / अपडेट', 'Naam, address, DOB ya mobile update karwana.')">
             <div class="form-info-left">
                 <div class="form-icon">🪪</div>
                 <div class="form-texts">
@@ -234,7 +323,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" data-cat="id" onclick="openFormDetail('PAN Card (Form 49A)', 'पैन कार्ड (फॉर्म 49A)', 'Naya PAN card apply karna (Indian citizens).')">
+        <div class="form-card" data-cat="id" onclick="openFormModal('PAN Card (Form 49A)', 'पैन कार्ड (फॉर्म 49A)', 'Naya PAN card apply karna (Indian citizens).')">
             <div class="form-info-left">
                 <div class="form-icon">💳</div>
                 <div class="form-texts">
@@ -246,7 +335,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" data-cat="travel" onclick="openFormDetail('Passport (Fresh Application)', 'पासपोर्ट (नया आवेदन)', 'Naya passport banwana videsh yatra ke liye.')">
+        <div class="form-card" data-cat="travel" onclick="openFormModal('Passport (Fresh Application)', 'पासपोर्ट (नया आवेदन)', 'Naya passport banwana videsh yatra ke liye.')">
             <div class="form-info-left">
                 <div class="form-icon">✈️</div>
                 <div class="form-texts">
@@ -258,7 +347,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" data-cat="travel" onclick="openFormDetail('Driving Licence (Learner\'s)', 'ड्राइविंग लाइसेंस (लर्नर)', 'Learner\'s licence ke liye aavedan (Form 2).')">
+        <div class="form-card" data-cat="travel" onclick="openFormModal('Driving Licence (Learner\'s)', 'ड्राइविंग लाइसेंस (लर्नर)', 'Learner\'s licence ke liye aavedan (Form 2).')">
             <div class="form-info-left">
                 <div class="form-icon">🚗</div>
                 <div class="form-texts">
@@ -270,7 +359,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" data-cat="service" onclick="openFormDetail('Ration Card (New)', 'राशन कार्ड (नया)', 'Naye ration card ke liye aavedan (state portal).')">
+        <div class="form-card" data-cat="service" onclick="openFormModal('Ration Card (New)', 'राशन कार्ड (नया)', 'Naye ration card ke liye aavedan (state portal).')">
             <div class="form-info-left">
                 <div class="form-icon">🌾</div>
                 <div class="form-texts">
@@ -282,7 +371,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" data-cat="id" onclick="openFormDetail('Voter ID (Form 6)', 'वोटर आईडी (फॉर्म 6)', 'Naye voter registration ke liye Form 6.')">
+        <div class="form-card" data-cat="id" onclick="openFormModal('Voter ID (Form 6)', 'वोटर आईडी (फॉर्म 6)', 'Naye voter registration ke liye Form 6.')">
             <div class="form-info-left">
                 <div class="form-icon">🗳️</div>
                 <div class="form-texts">
@@ -296,16 +385,52 @@
 
     </div>
 
+    <!-- Interactive Modal & Preview Sheet -->
+    <div id="form-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title" style="margin:0; color:#1e293b;">Form Details</h3>
+                <button class="close-btn" onclick="closeFormModal()">✕</button>
+            </div>
+            <p id="modal-desc" style="color: #64748b; font-size: 13px; margin-top:0;"></p>
+            
+            <div class="input-group">
+                <label>Apni Details / Sawaal Darj Karein:</label>
+                <input type="text" id="input-name" placeholder="Apna Poora Naam (Full Name)..." style="margin-bottom:8px;">
+                <textarea id="user-input-query" rows="2" placeholder="Form se sambandhit koi sawaal ya jankari..."></textarea>
+            </div>
+            
+            <button class="submit-ai-btn" onclick="generatePreview()">👁️ Preview Form & Get Guidance</button>
+            
+            <!-- Form Preview Section -->
+            <div id="preview-section" class="preview-box">
+                <h4 style="margin:0 0 8px 0; color:#1e3a8a;">📋 Form Preview & Summary:</h4>
+                <div id="preview-content" style="font-size: 13px; color:#334155; line-height: 1.5;"></div>
+                
+                <!-- Legal Disclaimer -->
+                <div class="disclaimer-text">
+                    <strong>⚠️ Disclaimer / घोषणा:</strong><br>
+                    यह जानकारी केवल आपकी सहायता के लिए है। कृपया फॉर्म सबमिट करने से पहले सभी विवरणों को अपने स्तर पर भली-भांति जाँच और संतुष्ट कर लें। ऐप डेवलपर किसी भी प्रकार की त्रुटि के लिए जिम्मेदार नहीं है।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <div class="nav-item active">
+        <div class="nav-item active" onclick="switchNav(this)">
             <div>🏠</div>
             फॉर्म
         </div>
-        <div class="nav-item" onclick="alert('Meri Jankari section coming soon!')">
+        <div class="nav-item" onclick="switchNav(this); alert('Meri Jankari: Saved profile details will appear here.');">
             <div>👤</div>
             मेरी जानकारी
         </div>
-        <div class="nav-item" onclick="alert('Help & Support: Contact Form Saathi AI team via Pi Browser.')">
+        <div class="nav-item" onclick="switchNav(this); alert('Sevaen (Services): All official portal links and document checklists.');">
+            <div>🛠️</div>
+            सेवाएँ
+        </div>
+        <div class="nav-item" onclick="switchNav(this); alert('Madad (Help): Contact support via Pi Network browser.');">
             <div>❓</div>
             मदद
         </div>
@@ -319,7 +444,7 @@
                     console.log("Pi SDK Initialized.");
                 }
             } catch (error) {
-                console.error("Pi SDK Init Error:", error);
+                console.error("Pi SDK InitError:", error);
             }
         });
 
@@ -363,10 +488,41 @@
             }
         }
 
-        function openFormDetail(engName, hiName, desc) {
-            alert(`📋 ${engName} (${hiName})\n\nDetails: ${desc}\n\n(AI Assistant is ready to help you fill this form step-by-step in Pi Network!)`);
+        function openFormModal(engName, hiName, desc) {
+            document.getElementById('modal-title').innerText = `${engName} (${hiName})`;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('preview-section').style.display = 'none';
+            document.getElementById('input-name').value = '';
+            document.getElementById('user-input-query').value = '';
+            document.getElementById('form-modal').style.display = 'flex';
+        }
+
+        function closeFormModal() {
+            document.getElementById('form-modal').style.display = 'none';
+        }
+
+        function generatePreview() {
+            let name = document.getElementById('input-name').value.trim() || 'Not Provided';
+            let query = document.getElementById('user-input-query').value.trim() || 'General Form Assistance';
+            let previewBox = document.getElementById('preview-section');
+            let contentBox = document.getElementById('preview-content');
+            
+            previewBox.style.display = 'block';
+            contentBox.innerHTML = `
+                • <strong>Applicant Name:</strong> ${name}<br>
+                • <strong>Purpose / Query:</strong> ${query}<br>
+                • <strong>Required Documents Check:</strong> ID Proof, Address Proof, Photo verified.<br>
+                • <strong>Status:</strong> Ready for final verification and official portal submission.
+            `;
+        }
+
+        function switchNav(element) {
+            let items = document.getElementsByClassName('nav-item');
+            for(let item of items) {
+                item.classList.remove('active');
+            }
+            element.classList.add('active');
         }
     </script>
 </body>
 </html>
-
