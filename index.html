@@ -122,7 +122,6 @@
             justify-content: space-between;
             box-shadow: 0 2px 5px rgba(0,0,0,0.01);
             cursor: pointer;
-            transition: all 0.2s;
         }
         .form-card:active {
             background-color: #f1f5f9;
@@ -179,11 +178,6 @@
             padding: 25px;
             box-sizing: border-box;
             overflow-y: auto;
-            animation: slideUp 0.3s ease-out;
-        }
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
         }
         .modal-header {
             display: flex;
@@ -199,7 +193,6 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 18px;
-            color: #333;
         }
         .input-group {
             margin-bottom: 15px;
@@ -321,8 +314,7 @@
         </div>
     </div>
 
-    <!-- Floating AI Helper Button -->
-    <div class="ai-floating-btn" onclick="openFloatingAiHelper()">
+    <div class="ai-floating-btn" onclick="openModal('Form Saathi AI Assistant', 'एआई सहायक', 'https://pi.network')">
         🤖 Ask AI Assistant
     </div>
 
@@ -335,17 +327,17 @@
     </div>
 
     <div class="categories">
-        <div class="cat-chip active" onclick="filterCat('all', event)">Sabhi</div>
-        <div class="cat-chip" onclick="filterCat('id', event)">पहचान</div>
-        <div class="cat-chip" onclick="filterCat('travel', event)">यात्रा</div>
-        <div class="cat-chip" onclick="filterCat('service', event)">सरकारी सेवा</div>
+        <div class="cat-chip active" onclick="filterCat('all')">Sabhi</div>
+        <div class="cat-chip" onclick="filterCat('id')">पहचान</div>
+        <div class="cat-chip" onclick="filterCat('travel')">यात्रा</div>
+        <div class="cat-chip" onclick="filterCat('service')">सरकारी सेवा</div>
     </div>
 
     <div class="section-title">Sabhi Form & Sevaen</div>
 
     <div class="form-list" id="form-container">
         
-        <div class="form-card" onclick="openFormModal('Aadhaar Correction / Update', 'आधार सुधार / अपडेट', 'Naam, address, DOB ya mobile update karwana.', 'https://uidai.gov.in')">
+        <div class="form-card" data-cat="id" onclick="openModal('Aadhaar Correction / Update', 'आधार सुधार / अपडेट', 'https://uidai.gov.in')">
             <div class="form-info-left">
                 <div class="form-icon">🪪</div>
                 <div class="form-texts">
@@ -357,7 +349,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" onclick="openFormModal('PAN Card (Form 49A)', 'पैन कार्ड (फॉर्म 49A)', 'Naya PAN card apply karna (Indian citizens).', 'https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html')">
+        <div class="form-card" data-cat="id" onclick="openModal('PAN Card (Form 49A)', 'पैन कार्ड (फॉर्म 49A)', 'https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html')">
             <div class="form-info-left">
                 <div class="form-icon">💳</div>
                 <div class="form-texts">
@@ -369,7 +361,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" onclick="openFormModal('Passport (Fresh Application)', 'पासपोर्ट (नया आवेदन)', 'Naya passport banwana videsh yatra ke liye.', 'https://www.passportindia.gov.in/')">
+        <div class="form-card" data-cat="travel" onclick="openModal('Passport (Fresh Application)', 'पासपोर्ट (नया आवेदन)', 'https://www.passportindia.gov.in/')">
             <div class="form-info-left">
                 <div class="form-icon">✈️</div>
                 <div class="form-texts">
@@ -381,7 +373,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" onclick="openFormModal('Driving Licence (Learner\'s)', 'ड्राइविंग लाइसेंस (लर्नर)', 'Learner\'s licence ke liye aavedan (Form 2).', 'https://sarathi.parivahan.gov.in/')">
+        <div class="form-card" data-cat="travel" onclick="openModal('Driving Licence (Learner\'s)', 'ड्राइविंग लाइसेंस (लर्नर)', 'https://sarathi.parivahan.gov.in/')">
             <div class="form-info-left">
                 <div class="form-icon">🚗</div>
                 <div class="form-texts">
@@ -393,7 +385,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" onclick="openFormModal('Ration Card (New)', 'राशन कार्ड (नया)', 'Naye ration card ke liye aavedan (state portal).', 'https://nfsa.gov.in/')">
+        <div class="form-card" data-cat="service" onclick="openModal('Ration Card (New)', 'राशन कार्ड (नया)', 'https://nfsa.gov.in/')">
             <div class="form-info-left">
                 <div class="form-icon">🌾</div>
                 <div class="form-texts">
@@ -405,7 +397,7 @@
             <div class="arrow-icon">→</div>
         </div>
 
-        <div class="form-card" onclick="openFormModal('Voter ID (Form 6)', 'वोटर आईडी (फॉर्म 6)', 'Naye voter registration ke liye Form 6.', 'https://voters.eci.gov.in/')">
+        <div class="form-card" data-cat="id" onclick="openModal('Voter ID (Form 6)', 'वोटर आईडी (फॉर्म 6)', 'https://voters.eci.gov.in/')">
             <div class="form-info-left">
                 <div class="form-icon">🗳️</div>
                 <div class="form-texts">
@@ -419,14 +411,14 @@
 
     </div>
 
-    <!-- Interactive Modal & Preview Sheet -->
+    <!-- Modal -->
     <div id="form-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modal-title" style="margin:0; color:#1e293b;">Form Details</h3>
-                <button class="close-btn" onclick="closeFormModal()">✕</button>
+                <button class="close-btn" onclick="closeModal()">✕</button>
             </div>
-            <p id="modal-desc" style="color: #64748b; font-size: 13px; margin-top:0;"></p>
+            <p id="modal-desc" style="color: #64748b; font-size: 13px; margin-top:0;">Step-by-step guidance aur zaroori documents ki jaankari.</p>
             
             <div class="input-group">
                 <label>Apni Details / Sawaal Darj Karein:</label>
@@ -436,66 +428,72 @@
             
             <button class="submit-ai-btn" onclick="generatePreview()">👁️ Preview Form & Get Guidance</button>
             
-            <!-- Form Preview Section -->
             <div id="preview-section" class="preview-box">
                 <h4 style="margin:0 0 8px 0; color:#1e3a8a;">📋 Form Preview & Summary:</h4>
                 <div id="preview-content" style="font-size: 13px; color:#334155; line-height: 1.5;"></div>
                 
-                <!-- Legal Disclaimer -->
                 <div class="disclaimer-text">
                     <strong>⚠️ Disclaimer / घोषणा:</strong><br>
                     यह जानकारी केवल आपकी सहायता के लिए है। कृपया फॉर्म सबमिट करने से पहले सभी विवरणों को अपने स्तर पर भली-भांति जाँच और संतुष्ट कर लें। ऐप डेवलपर किसी भी प्रकार की त्रुटि के लिए जिम्मेदार नहीं है।
                 </div>
 
-                <!-- Proceed to Official Portal Button -->
                 <a id="official-link-btn" href="#" target="_blank" class="proceed-btn">🌐 Proceed to Official Portal (सरकारी पोर्टल पर जाएँ)</a>
             </div>
         </div>
     </div>
 
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchNav(this)">
+        <div class="nav-item active">
             <div>🏠</div>
             फॉर्म
         </div>
-        <div class="nav-item" onclick="switchNav(this); alert('Meri Jankari: Saved profile details will appear here.');">
+        <div class="nav-item" onclick="alert('Meri Jankari: Saved profile details will appear here.');">
             <div>👤</div>
             मेरी जानकारी
         </div>
-        <div class="nav-item" onclick="switchNav(this); alert('Sevaen (Services): All official portal links and document checklists.');">
+        <div class="nav-item" onclick="alert('Sevaen (Services): All official portal links and document checklists.');">
             <div>🛠️</div>
             सेवाएँ
         </div>
-        <div class="nav-item" onclick="switchNav(this); alert('Madad (Help): Contact support via Pi Network browser.');">
+        <div class="nav-item" onclick="alert('Madad (Help): Contact support via Pi Network browser.');">
             <div>❓</div>
             मदद
         </div>
     </div>
 
     <script>
-        let selectedPortalUrl = "https://pi.network";
+        let currentUrl = "https://pi.network";
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            try {
-                if (window.Pi) {
-                    window.Pi.init({ version: "2.0", sandbox: true });
-                    console.log("Pi SDK Initialized.");
-                }
-            } catch (error) {
-                console.error("Pi SDK InitError:", error);
-            }
-        });
+        function openModal(titleText, hiTitleText, url) {
+            document.getElementById('modal-title').innerText = titleText + " (" + hiTitleText + ")";
+            currentUrl = url;
+            document.getElementById('preview-section').style.display = 'none';
+            document.getElementById('input-name').value = '';
+            document.getElementById('user-input-query').value = '';
+            document.getElementById('form-modal').style.display = 'flex';
+        }
 
-        async function loginWithPi() {
-            try {
-                const scopes = ['username', 'payments'];
-                const auth = await window.Pi.authenticate(scopes, (payment) => {});
-                document.getElementById("pi-auth-btn").innerText = `@${auth.user.username}`;
-                alert("Connected successfully with Pi Network!");
-            } catch (error) {
-                alert("Pi Login failed: " + (error.message || error));
-            }
+        function closeModal() {
+            document.getElementById('form-modal').style.display = 'none';
+        }
+
+        function generatePreview() {
+            let name = document.getElementById('input-name').value.trim() || 'Not Provided';
+            let query = document.getElementById('user-input-query').value.trim() || 'General Form Assistance';
+            
+            let previewBox = document.getElementById('preview-section');
+            let contentBox = document.getElementById('preview-content');
+            let linkBtn = document.getElementById('official-link-btn');
+            
+            previewBox.style.display = 'block';
+            linkBtn.href = currentUrl;
+
+            contentBox.innerHTML = `
+                • <strong>Applicant Name:</strong> ${name}<br>
+                • <strong>Purpose / Query:</strong> ${query}<br>
+                • <strong>Required Documents Check:</strong> ID Proof, Address Proof, Photo verified.<br>
+                • <strong>Status:</strong> Ready to proceed to official government portal.
+            `;
         }
 
         function filterForms() {
@@ -512,49 +510,35 @@
             }
         }
 
-        function filterCat(cat, event) {
+        function filterCat(cat) {
             let chips = document.getElementsByClassName('cat-chip');
             for(let c of chips) c.classList.remove('active');
-            if (event && event.target) {
-                event.target.classList.add('active');
-            }
+            event.target.classList.add('active');
 
             let cards = document.getElementsByClassName('form-card');
             for (let i = 0; i < cards.length; i++) {
-                if(cat === 'all') {
+                if(cat === 'all' || cards[i].getAttribute('data-cat') === cat) {
                     cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
                 }
             }
         }
 
-        function openFormModal(engName, hiName, desc, portalUrl) {
-            const modal = document.getElementById('form-modal');
-            const title = document.getElementById('modal-title');
-            const description = document.getElementById('modal-desc');
-            const previewBox = document.getElementById('preview-section');
-            
-            if (title) title.innerText = `${engName} (${hiName})`;
-            if (description) description.innerText = desc;
-            selectedPortalUrl = portalUrl || 'https://pi.network';
-            if (previewBox) previewBox.style.display = 'none';
-            
-            let nameInput = document.getElementById('input-name');
-            let queryInput = document.getElementById('user-input-query');
-            if (nameInput) nameInput.value = '';
-            if (queryInput) queryInput.value = '';
-            
-            if (modal) modal.style.display = 'flex';
+        async function loginWithPi() {
+            try {
+                if (window.Pi) {
+                    const auth = await window.Pi.authenticate(['username'], (payment) => {});
+                    document.getElementById("pi-auth-btn").innerText = `@${auth.user.username}`;
+                    alert("Connected successfully with Pi Network!");
+                } else {
+                    alert("Pi SDK not available in this browser.");
+                }
+            } catch (error) {
+                alert("Pi Login failed: " + (error.message || error));
+            }
         }
+    </script>
+</body>
+</html>
 
-        function closeFormModal() {
-            const modal = document.getElementById('form-modal');
-            if (modal) modal.style.display = 'none';
-        }
-
-        function openFloatingAiHelper() {
-            openFormModal('Form Saathi AI Assistant', 'एआई सहायक', 'Kisi bhi form ya field ko samajhne ke liye apna sawaal yahan poochein.', 'https://pi.network');
-        }
-
-        function generatePreview() {
-            let nameInput = document.getElementById('input-name');
-            
