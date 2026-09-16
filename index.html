@@ -436,7 +436,7 @@
                     यह जानकारी केवल आपकी सहायता के लिए है। कृपया फॉर्म सबमिट करने से पहले सभी विवरणों को अपने स्तर पर भली-भांति जाँच और संतुष्ट कर लें। ऐप डेवलपर किसी भी प्रकार की त्रुटि के लिए जिम्मेदार नहीं है।
                 </div>
 
-                <button onclick="openOfficialPortal()" class="proceed-btn">🌐 Proceed to Official Portal (सरकारी पोर्टल पर जाएँ)</button>
+                <a id="official-link-btn" href="#" target="_system" class="proceed-btn">🌐 Proceed to Official Portal (सरकारी पोर्टल पर जाएँ)</a>
             </div>
         </div>
     </div>
@@ -482,8 +482,10 @@
             
             let previewBox = document.getElementById('preview-section');
             let contentBox = document.getElementById('preview-content');
+            let linkBtn = document.getElementById('official-link-btn');
             
             previewBox.style.display = 'block';
+            linkBtn.href = currentUrl;
 
             contentBox.innerHTML = `
                 • <strong>Applicant Name:</strong> ${name}<br>
@@ -491,14 +493,6 @@
                 • <strong>Required Documents Check:</strong> ID Proof, Address Proof, Photo verified.<br>
                 • <strong>Status:</strong> Ready to proceed to official government portal.
             `;
-        }
-
-        function openOfficialPortal() {
-            if (window.Pi && window.Pi.openExternalLink) {
-                window.Pi.openExternalLink(currentUrl);
-            } else {
-                window.open(currentUrl, '_blank');
-            }
         }
 
         function filterForms() {
@@ -545,5 +539,4 @@
         }
     </script>
 </body>
-    </html>
-    
+</html>
