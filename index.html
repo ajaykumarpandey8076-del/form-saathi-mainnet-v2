@@ -3,93 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pi Testnet Verification App</title>
+    <title>Form Saathi AI - Sarkari form ab aasaan</title>
     <!-- Pi Network SDK Script -->
     <script src="https://sdk.minepi.com/pi-sdk.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6fb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 70px;
+        }
+        .header-banner {
+            background: linear-gradient(135deg, #1b63dc, #3b82f6);
+            color: white;
+            padding: 20px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+        }
+        .app-title-row {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            height: 100vh;
+        }
+        .app-title {
+            font-size: 20px;
+            font-weight: bold;
             margin: 0;
         }
-        .card {
+        .banner-box {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 14px;
+        }
+        .banner-box h2 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+        .banner-box p {
+            margin: 0;
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        .search-container {
+            padding: 15px 20px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 400px;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
         }
-        button {
-            background-color: #5d2e8c;
-            color: white;
+        .search-box input {
             border: none;
-            padding: 12px 24px;
-            font-size: 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 20px;
+            outline: none;
+            width: 100%;
+            font-size: 14px;
+            margin-left: 10px;
+            background: transparent;
         }
-        button:hover {
-            background-color: #48226d;
+        .search-hint {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 6px;
+            padding-left: 5px;
+        }
+        .categories {
+            display: flex;
+            gap: 10px;
+            padding: 0 20px;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+        .cat-chip {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            color: #475569;
+        }
+        .cat-chip.active {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+        .section-title {
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #64748b;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-list {
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .form-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .form-card:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.08);
+        }
+        .form-info-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .form-icon {
+            width: 42px;
+            height: 42px;
+            background: #eff6ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .form-texts h3 {
+            margin: 0;
+            font-size: 15px;
+            color: #1e293b;
+        }
+        .form-texts .hi-title {
+            font-size: 13px;
+            color: #475569;
+            margin: 2px 0;
+        }
+        .form-texts p {
+            margin: 0;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .arrow-icon {
+            font-size: 18px;
+            color: #64748b;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
+        }
+        .nav-item {
+            text-align: center;
+            font-size: 11px;
+            color: #64748b;
+            cursor: pointer;
+        }
+        .nav-item.active {
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+        .nav-item div {
+            font-size: 18px;
+            margin-bottom: 2px;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>Pi Testnet Verification App</h2>
-        <p>Welcome! Your app is successfully connected to the Pi Network Testnet environment.</p>
+    <div class="header-banner">
+        <div class="app-title-row">
+            <span class="app-title">Form Saathi AI</span>
+            <button id="pi-auth-btn" onclick="loginWithPi()" style="background:white; color:#1d4ed8; border:none; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:bold; cursor:pointer;">Pi Login</button>
+        </div>
+        <div class="banner-box">
+            <h2>Sarkari form ab aasaan</h2>
+            <p>Har field ka matlab, zaroori documents aur step-by-step madad — simple Hindi me.</p>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" id="user-search" placeholder="Form ka naam ya apni baat likhein..." onkeyup="filterForms()">
+        </div>
+        <div class="search-hint">Jaise: "aadhaar me naam theek karna hai" ya "bike ka licence"</div>
+    </div>
+
+    <div class="categories">
+        <div class="cat-chip active" onclick="filterCat('all')">Sabhi</div>
+        <div class="cat-chip" onclick="filterCat('id')">पहचान</div>
+        <div class="cat-chip" onclick="filterCat('travel')">यात्रा</div>
+        <div class="cat-chip" onclick="filterCat('service')">सरकारी सेवा</div>
+    </div>
+
+    <div class="section-title">Sabhi Form</div>
+
+    <div class="form-list" id="form-container">
         
-        <!-- यह रहा आपका Verify Connection बटन -->
-        <button id="verify-btn" onclick="verifyPiConnection()">Verify Connection</button>
-        <p id="status-text" style="margin-top: 15px; font-size: 14px; color: #666;"></p>
+        <div class="form-card" data-cat="id" onclick="openFormDetail('Aadhaar Correction / Update', 'आधार सुधार / अपडेट', 'Naam, address, DOB ya mobile [Aadhaar Redacted] me theek karwana.')">
+            <div class="form-info-left">
+                <div class="form-icon">🪪</div>
+                <div class="form-texts">
+                    <h3>Aadhaar Correction / Update</h3>
+                    <div class="hi-title">आधार सुधार / अपडेट</div>
+                    <p>Naam, address, DOB ya mobile update karwana.</p>
+                </div>
+            </div>
+            <div class="arrow-icon">→</div>
+        </div>
+
+        <div class="form-card" data-cat="id" onclick="openFormDetail('PAN Card (Form 49A)', 'पैन कार्ड (फॉर्म 49A)', 'Naya PAN card apply karna (Indian citizens).')">
+            <div class="form-info-left">
+                <div class="form-icon">💳</div>
+                <div class="form-texts">
+                    <h3>PAN Card (Form 49A)</h3>
+                    <div class="hi-title">पैन कार्ड (फॉर्म 49A)</div>
+                    <p>Naya PAN card apply karna (Indian citizens).</p>
+                </div>
+            </div>
+            <div class="arrow-icon">→</div>
+        </div>
+
+        <div class="form-card" data-cat="travel" onclick="openFormDetail('Passport (Fresh Application)', 'पासपोर्ट (नया आवेदन)', 'Naya passport banwana videsh yatra ke liye.')">
+            <div class="form-info-left">
+                <div class="form-icon">✈️</div>
+                <div class="form-texts">
+                    <h3>Passport (Fresh Application)</h3>
+                    <div class="hi-title">पासपोर्ट (नया आवेदन)</div>
+                    <p>Naya passport banwana videsh yatra ke liye.</p>
+                </div>
+            </div>
+            <div class="arrow-icon">→</div>
+        </div>
+
+        <div class="form-card" data-cat="travel" onclick="openFormDetail('Driving Licence (Learner\'s)', 'ड्राइविंग लाइसेंस (लर्नर)', 'Learner\'s licence ke liye aavedan (Form 2).')">
+            <div class="form-info-left">
+                <div class="form-icon">🚗</div>
+                <div class="form-texts">
+                    <h3>Driving Licence (Learner's)</h3>
+                    <div class="hi-title">ड्राइविंग लाइसेंस (लर्नर)</div>
+                    <p>Learner's licence ke liye aavedan (Form 2).</p>
+                </div>
+            </div>
+            <div class="arrow-icon">→</div>
+        </div>
+
+        <div class="form-card" data-cat="service" onclick="openFormDetail('Ration Card (New)', 'राशन कार्ड (नया)', 'Naye ration card ke liye aavedan (state portal).')">
+            <div class="form-info-left">
+                <div class="form-icon">🌾</div>
+                <div class="form-texts">
+                    <h3>Ration Card (New)</h3>
+                    <div class="hi-title">राशन कार्ड (नया)</div>
+                    <p>Naye ration card ke liye aavedan (state portal).</p>
+                </div>
+            </div>
+            <div class="arrow-icon">→</div>
+        </div>
+
+        <div class="form-card" data-cat="id" onclick="openFormDetail('Voter ID (Form 6)', 'वोटर आईडी (फॉर्म 6)', 'Naye voter registration ke liye Form 6.')">
+            <div class="form-info-left">
+                <div class="form-icon">🗳️</div>
+                <div class="form-texts">
+                    <h3>Voter ID (Form 6)</h3>
+                    <div class="hi-title">वोटर आईडी (फॉर्म 6)</div>
+                    <p>Naye voter registration ke liye Form 6.</p>
+                </div>
+            </div>
+            <div class="arrow-icon">→</div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <div>🏠</div>
+            फॉर्म
+        </div>
+        <div class="nav-item" onclick="alert('Meri Jankari section coming soon!')">
+            <div>👤</div>
+            मेरी जानकारी
+        </div>
+        <div class="nav-item" onclick="alert('Help & Support: Contact Form Saathi AI team via Pi Browser.')">
+            <div>❓</div>
+            मदद
+        </div>
     </div>
 
     <script>
-        // Pi SDK को इनिशियलाइज करें
         window.addEventListener('DOMContentLoaded', (event) => {
             try {
                 if (window.Pi) {
                     window.Pi.init({ version: "2.0", sandbox: true });
-                    console.log("Pi SDK Initialized successfully.");
+                    console.log("Pi SDK Initialized.");
                 }
             } catch (error) {
-                console.error("Pi SDK Initialization failed:", error);
+                console.error("Pi SDK Init Error:", error);
             }
         });
 
-        // बटन पर क्लिक होने पर यह फंक्शन चलेगा
-        async function verifyPiConnection() {
-            const statusText = document.getElementById("status-text");
-            statusText.innerText = "Connecting to Pi Network...";
-
+        async function loginWithPi() {
             try {
-                // Pi Network से ऑथेंटिकेशन या स्कोप अनुरोध करें
                 const scopes = ['username', 'payments'];
-                
-                function onIncompletePaymentFound(payment) {
-                    console.log("Incomplete payment found:", payment);
-                }
-
-                if (window.Pi) {
-                    const auth = await window.Pi.authenticate(scopes, onIncompletePaymentFound);
-                    statusText.style.color = "green";
-                    statusText.innerText = `Verified! Logged in as ${auth.user.username}`;
-                    alert("Connection Verified Successfully with Pi Network!");
-                } else {
-                    statusText.style.color = "red";
-                    statusText.innerText = "Please open this app inside the Pi Browser.";
-                }
+                const auth = await window.Pi.authenticate(scopes, (payment) => {});
+                document.getElementById("pi-auth-btn").innerText = `@${auth.user.username}`;
+                alert("Connected successfully with Pi Network!");
             } catch (error) {
-                statusText.style.color = "red";
-                statusText.innerText = "Verification failed: " + (error.message || error);
+                alert("Pi Login failed: " + (error.message || error));
             }
+        }
+
+        function filterForms() {
+            let input = document.getElementById('user-search').value.toLowerCase();
+            let cards = document.getElementsByClassName('form-card');
+            
+            for (let i = 0; i < cards.length; i++) {
+                let text = cards[i].innerText.toLowerCase();
+                if (text.includes(input)) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        function filterCat(cat) {
+            let chips = document.getElementsByClassName('cat-chip');
+            for(let c of chips) c.classList.remove('active');
+            event.target.classList.add('active');
+
+            let cards = document.getElementsByClassName('form-card');
+            for (let i = 0; i < cards.length; i++) {
+                if(cat === 'all' || cards[i].getAttribute('data-cat') === cat) {
+                    cards[i].style.display = "flex";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        function openFormDetail(engName, hiName, desc) {
+            alert(`📋 ${engName} (${hiName})\n\nDetails: ${desc}\n\n(AI Assistant is ready to help you fill this form step-by-step in Pi Network!)`);
         }
     </script>
 </body>
 </html>
+
