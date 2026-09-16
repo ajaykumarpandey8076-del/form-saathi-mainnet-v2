@@ -333,10 +333,10 @@
     </div>
 
     <div class="categories">
-        <div class="cat-chip active" onclick="filterCat('all')">Sabhi</div>
-        <div class="cat-chip" onclick="filterCat('id')">पहचान</div>
-        <div class="cat-chip" onclick="filterCat('travel')">यात्रा</div>
-        <div class="cat-chip" onclick="filterCat('service')">सरकारी सेवा</div>
+        <div class="cat-chip active" onclick="filterCat('all', event)">Sabhi</div>
+        <div class="cat-chip" onclick="filterCat('id', event)">पहचान</div>
+        <div class="cat-chip" onclick="filterCat('travel', event)">यात्रा</div>
+        <div class="cat-chip" onclick="filterCat('service', event)">सरकारी सेवा</div>
     </div>
 
     <div class="section-title">Sabhi Form & Sevaen</div>
@@ -510,10 +510,12 @@
             }
         }
 
-        function filterCat(cat) {
+        function filterCat(cat, event) {
             let chips = document.getElementsByClassName('cat-chip');
             for(let c of chips) c.classList.remove('active');
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
 
             let cards = document.getElementsByClassName('form-card');
             for (let i = 0; i < cards.length; i++) {
@@ -547,6 +549,4 @@
             let name = document.getElementById('input-name').value.trim() || 'Not Provided';
             let query = document.getElementById('user-input-query').value.trim() || 'General Form Assistance';
             let previewBox = document.getElementById('preview-section');
-            let contentBox = document.getElementById('preview-content');
-            let linkBtn = document.getElementById('official-link-btn');
-        
+            let contentBox = document.getElementById('previ
